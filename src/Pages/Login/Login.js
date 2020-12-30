@@ -21,7 +21,7 @@ export const Login = () => {
           login();
         }}
       >
-        Google Login
+        Google Login --
       </Button>
     </>
   );
