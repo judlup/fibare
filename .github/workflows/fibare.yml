@@ -40,6 +40,8 @@ jobs:
 
     - name: Build
       run: npm run build
+      env:
+        CI: false
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
