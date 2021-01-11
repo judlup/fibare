@@ -14,3 +14,6 @@ store.getState();
 // output: {articles: Array(1)}
 
 https://www.valentinog.com/blog/redux/
+
+#### Tutorial
+https://www.youtube.com/watch?v=CVpUuw9XSjY&ab_channel=DevEd

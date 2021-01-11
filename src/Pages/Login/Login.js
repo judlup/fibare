@@ -1,86 +1,13 @@
 import React, { useState } from "react";
 import firebase from "../../Initializers/firebase";
 import { Button } from "react-bootstrap";
-import { connect } from "react-redux";
-import { addArticle } from "../../Redux/Actions/index";
-
-const mapStateToProps = (state,dispatch) => {
-  return { 
-    articles: state.articles,    
-  }; 
-};
-
-function mapDispatchToProps(dispatch) {
-  return {
-    addArticle: article => dispatch(addArticle(article))
-  };
-}
-
-const ConnectedList = ({articles}) => (
-  <ul>
-    {articles.map(el => (
-      <li key={el.id}>{el.title}</li>
-    ))}
-  </ul>
-);
-
-const List = connect(mapStateToProps)(ConnectedList);
-
-const ConnectedForm = (props) => {
-  
-  const [title, setTitle] = useState(null);
-  
-  function handleChange(event) {
-    // this.setState({ [event.target.id]: event.target.value });
-    setTitle(event.target.value);
-  }
-
-  // Middleware function
-  function forbiddenWordsMiddleware({ getState, dispatch}){
-    return function(next){
-      return function(action){
-        const nextAction = next(action);
-        const state = getState();
-        return nextAction;
-
-      }
-    }
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const forbiddenWords = ['spam','money'];
-    const foundWord = forbiddenWords.filter(word => title.includes(word))
-    if (foundWord){
-      return props.titleForbidden();
-    }
-    props.addArticle({ title });
-    setTitle("");
-  }
-  return ( 
-    <>    
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">SAVE</button>
-      </form>      
-    </>
-  );
-};
-
-const Form = connect(
-  null,
-  mapDispatchToProps
-)(ConnectedForm);
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement, signedIn } from "../../Redux/Actions";
 
 export const Login = () => {
+  const counter = useSelector((state) => state.counter);
+  const isLogged = useSelector((state) => state.isLogged);
+  const dispatch = useDispatch();
   function login() {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase
@@ -99,11 +26,31 @@ export const Login = () => {
           login();
         }}
       >
-        Google Login 
+        Google Login
       </Button>
-
-      <List />
-      <Form />
+      <Button
+        onClick={() => {
+          dispatch(increment(5));
+        }}
+      >
+        +
+      </Button>
+      <Button
+        onClick={() => {
+          dispatch(decrement());
+        }}
+      >
+        -
+      </Button>
+      <Button
+        onClick={() => {
+          dispatch(signedIn());
+        }}
+      >
+        SignIn
+      </Button>
+      <h6>Counter {counter}</h6>
+      {isLogged ? <h6>Valuable information I shouldn't see</h6> : ""}
     </>
   );
 };
