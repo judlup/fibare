@@ -2,20 +2,36 @@ import React, { useState } from "react";
 import firebase from "../../Initializers/firebase";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, signedIn } from "../../Redux/Actions";
+import { successfulLogin, failurefulLogin, logout } from "../../Redux/Actions";
 
 export const Login = () => {
-  const counter = useSelector((state) => state.counter);
-  const isLogged = useSelector((state) => state.isLogged);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   function login() {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        console.log(result);
+        const username = result.user.displayName;
+        const email = result.user.email;
+        const photo = result.user.photoURL;
+        const userData = {
+          username: username,
+          email: email,
+          photo: photo,
+        };
+        if (username && email && photo) {
+          dispatch(successfulLogin(JSON.stringify(userData)));
+        } else {
+          dispatch(failurefulLogin());
+        }
       });
+  }
+
+  function logoutGoogle() {
+    dispatch(logout());
   }
   return (
     <>
@@ -30,27 +46,12 @@ export const Login = () => {
       </Button>
       <Button
         onClick={() => {
-          dispatch(increment(5));
+          logoutGoogle();
         }}
       >
-        +
+        Google Logout
       </Button>
-      <Button
-        onClick={() => {
-          dispatch(decrement());
-        }}
-      >
-        -
-      </Button>
-      <Button
-        onClick={() => {
-          dispatch(signedIn());
-        }}
-      >
-        SignIn
-      </Button>
-      <h6>Counter {counter}</h6>
-      {isLogged ? <h6>Valuable information I shouldn't see</h6> : ""}
+      {auth ? <h6>Valuable information I shouldn't see</h6> : ""}
     </>
   );
 };

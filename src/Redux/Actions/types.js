@@ -1,3 +1,3 @@
-export const INCREMENT = "INCREMENT";
-export const DECREMENT = "DECREMENT";
-export const SIGNED_IN = "SIGNED_IN";
+export const SUCESSFUL_LOGIN = "SUCESSFUL_LOGIN";
+export const FAILURE_LOGIN = "FAILURE_LOGIN";
+export const LOGOUT = "LOGOUT";

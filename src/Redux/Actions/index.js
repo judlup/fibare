@@ -1,20 +1,20 @@
-import { INCREMENT, DECREMENT, SIGNED_IN } from "./types";
+import { SUCESSFUL_LOGIN, FAILURE_LOGIN, LOGOUT } from "./types";
 
-export const increment = (number) => {
+export const successfulLogin = (data) => {
   return {
-    type: INCREMENT,
-    payload: number,
+    type: SUCESSFUL_LOGIN,
+    payload: data,
   };
 };
 
-export const decrement = () => {
+export const failurefulLogin = () => {
   return {
-    type: DECREMENT,
+    type: FAILURE_LOGIN,
   };
 };
 
-export const signedIn = () => {
+export const logout = () => {
   return {
-    type: SIGNED_IN,
+    type: LOGOUT,
   };
 };
