@@ -52,6 +52,7 @@ export const Header = () => {
         ) : (
           <Button
             variant="light"
+            className="text-danger"
             onClick={() => {
               login();
             }}
