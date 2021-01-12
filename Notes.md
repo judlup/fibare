@@ -1,19 +1,7 @@
 ## Redux tutorial
 
-#### Console tests:
-
-store.getState();
-// output: {articles: Array(0)}
-
-store.subscribe(() => console.log('Look ma, Redux!!'));
-
-store.dispatch( addArticle({ title: 'React Redux Tutorial for Beginners', id: 1 }) );
-
-
-store.getState();
-// output: {articles: Array(1)}
-
-https://www.valentinog.com/blog/redux/
-
-#### Tutorial
 https://www.youtube.com/watch?v=CVpUuw9XSjY&ab_channel=DevEd
+
+## ToDo Tutorial
+
+https://codingwithmanny.medium.com/build-a-react-todo-app-with-firebase-part-1-ui-33a34b86f1e6
