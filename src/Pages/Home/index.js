@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { addTodo } from "../../Redux/Actions";
 import {
   Container,
   Row,
@@ -14,8 +15,17 @@ import "./index.css";
 
 export const Home = () => {
   const auth = useSelector((state) => state.auth);
+  const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
-
+  const title = useRef("");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = {
+      title: title.current.value,
+      done: false,
+    };
+    dispatch(addTodo(data));
+  };
   return (
     <>
       {auth ? (
@@ -28,16 +38,20 @@ export const Home = () => {
                 <hr />
               </Col>
               <Col md={12}>
-                <Form.Group>
-                  <Form.Control
-                    size="lg"
-                    type="text"
-                    placeholder="Enter Todo here... [Press Enter]"
-                    autoComplete="off"
-                  />
-                </Form.Group>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      placeholder="Enter Todo here... [Press Enter]"
+                      ref={title}
+                      autoComplete="off"
+                    />
+                  </Form.Group>
+                </Form>
               </Col>
               <Col md={12}>
+                {todos}--
                 <ul className="todos list-groups">
                   <li className="todo list-group-item">
                     <InputGroup>

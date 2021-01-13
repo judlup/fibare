@@ -3,7 +3,9 @@ import firebase from "../../Initializers/firebase";
 
 import { SUCESSFUL_LOGIN, FAILURE_LOGIN, LOGOUT } from "../Actions/types";
 
-const authReducer = (state = false, action) => {
+const initialState = localStorage.getItem("userData");
+
+const authReducer = (state = initialState ? true : false, action) => {
   switch (action.type) {
     case SUCESSFUL_LOGIN:
       localStorage.setItem("userData", action.payload);

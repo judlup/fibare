@@ -1,4 +1,4 @@
-import { SUCESSFUL_LOGIN, FAILURE_LOGIN, LOGOUT } from "./types";
+import { SUCESSFUL_LOGIN, FAILURE_LOGIN, LOGOUT, ADD_TODO } from "./types";
 
 export const successfulLogin = (data) => {
   return {
@@ -16,5 +16,12 @@ export const failurefulLogin = () => {
 export const logout = () => {
   return {
     type: LOGOUT,
+  };
+};
+
+export const addTodo = (todo) => {
+  return {
+    type: ADD_TODO,
+    payload: todo,
   };
 };
