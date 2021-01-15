@@ -15,16 +15,18 @@ export const Header = () => {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
+        const uid = result.user.uid;
         const username = result.user.displayName;
         const email = result.user.email;
         const photo = result.user.photoURL;
         const userData = {
+          uid: uid,
           username: username,
           email: email,
           photo: photo,
         };
         if (username && email && photo) {
-          dispatch(successfulLogin(JSON.stringify(userData)));
+          dispatch(successfulLogin(userData));
         } else {
           dispatch(failurefulLogin());
         }
@@ -41,7 +43,7 @@ export const Header = () => {
         <Navbar.Brand>
           <Link to="/">Fibare</Link>
         </Navbar.Brand>
-        {auth ? (
+        {auth.login ? (
           <Button
             onClick={() => {
               logoutGoogle();

@@ -3,3 +3,14 @@
   margin-top: 3vh;
   border-radius: 7px;
 }
+
+.home-delete-btn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 1.25rem;
+  margin: auto 0;
+  height: 25px;
+  padding-top: 0;
+  padding-bottom: 0;
+}

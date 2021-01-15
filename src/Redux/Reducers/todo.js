@@ -1,11 +1,14 @@
 import { ADD_TODO } from "../Actions/types";
 
+import { db } from "../../Initializers/firebase";
+
 const todos = [];
 
-const todoReducer = (state = todos, action) => {
+const todoReducer = async (state = todos, action) => {
   switch (action.type) {
     case ADD_TODO:
-      return (state = action.payload);
+      const result = await db.collection("todos").doc().set(action.payload);
+      return result;
     default:
       return state;
   }

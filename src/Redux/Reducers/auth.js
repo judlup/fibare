@@ -3,25 +3,31 @@ import firebase from "../../Initializers/firebase";
 
 import { SUCESSFUL_LOGIN, FAILURE_LOGIN, LOGOUT } from "../Actions/types";
 
-const initialState = localStorage.getItem("userData");
+const initialState = {
+  login: localStorage.getItem("userData") == null ? false : true,
+  user: JSON.parse(localStorage.getItem("userData")),
+};
 
-const authReducer = (state = initialState ? true : false, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SUCESSFUL_LOGIN:
-      localStorage.setItem("userData", action.payload);
-      return (state = true);
+      localStorage.setItem("userData", JSON.stringify(action.payload));
+      return {
+        ...state,
+        login: true,
+        user: action.payload,
+      };
     case FAILURE_LOGIN:
-      localStorage.setItem("userData", "");
-      return (state = false);
+      localStorage.removeItem("userData");
+      return { ...state, login: false, user: "" };
     case LOGOUT:
       firebase
         .auth()
         .signOut()
         .then(function () {
-          console.log("LOG OUT!");
-          localStorage.setItem("userData", "");
+          localStorage.removeItem("userData");
         });
-      return (state = false);
+      return { ...state, login: false, user: "" };
     default:
       return state;
   }

@@ -17,18 +17,34 @@ export const Home = () => {
   const auth = useSelector((state) => state.auth);
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
-  const title = useRef("");
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = {
-      title: title.current.value,
-      done: false,
-    };
-    dispatch(addTodo(data));
+  const [title, setTitle] = useState("");
+  function handleInput(e) {
+    e.preventDefault();
+    const { name, value } = e.target;
+    // setValues({ ...values, [name]: value });
+    setTitle(value);
+  }
+
+  const handleSubmit = (e) => {
+    if (e.key === "Enter") {
+      const user = auth.user;
+      const data = {
+        user: user.uid,
+        title: title,
+        done: false,
+        createdAt: Date.now(),
+      };
+      const result = dispatch(addTodo(data));
+      if (result.payload) {
+        setTitle("");
+        alert("Todo created successful");
+      }
+    }
   };
+
   return (
     <>
-      {auth ? (
+      {auth.login ? (
         <>
           <Container className="container">
             <Row>
@@ -38,44 +54,42 @@ export const Home = () => {
                 <hr />
               </Col>
               <Col md={12}>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      placeholder="Enter Todo here... [Press Enter]"
-                      ref={title}
-                      autoComplete="off"
-                    />
-                  </Form.Group>
-                </Form>
+                <Form.Group>
+                  <Form.Control
+                    size="lg"
+                    type="text"
+                    value={title}
+                    placeholder="Enter Todo here... [Press Enter]"
+                    onChange={handleInput}
+                    onKeyDown={handleSubmit}
+                    autoComplete="off"
+                  />
+                </Form.Group>
               </Col>
               <Col md={12}>
-                {todos}--
                 <ul className="todos list-groups">
-                  <li className="todo list-group-item">
-                    <InputGroup>
-                      <Form.Check type="checkbox" label="write this code " />
-                      <InputGroup.Append>
-                        <Button
-                          variant="outline-secondary"
-                          size="sm"
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            bottom: 0,
-                            right: "1.25rem",
-                            margin: "auto 0",
-                            height: "25px",
-                            paddingTop: 0,
-                            paddingBottom: 0,
-                          }}
-                        >
-                          &times;
-                        </Button>
-                      </InputGroup.Append>
-                    </InputGroup>
-                  </li>
+                  {/* {todos.length}-- */}
+                  {/* {todos.length == 0
+                    ? "Nada"
+                    : todos.map((todo) => {
+                        <li className="todo list-group-item">
+                          <InputGroup>
+                            <Form.Check
+                              type="checkbox"
+                              label="write this code "
+                            />
+                            <InputGroup.Append>
+                              <Button
+                                variant="outline-secondary"
+                                size="sm"
+                                className="home-delete-btn"
+                              >
+                                &times;
+                              </Button>
+                            </InputGroup.Append>
+                          </InputGroup>
+                        </li>;
+                      })} */}
                 </ul>
               </Col>
             </Row>
