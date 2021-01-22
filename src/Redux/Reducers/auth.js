@@ -1,4 +1,3 @@
-import { act } from "react-dom/test-utils";
 import firebase from "../../Initializers/firebase";
 
 import { SUCESSFUL_LOGIN, FAILURE_LOGIN, LOGOUT } from "../Actions/types";

@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from "../../Initializers/firebase";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addTodo } from "../../Redux/Actions";
+import { addTodo, listTodos } from "../../Redux/Actions";
 import {
   Container,
   Row,
@@ -42,6 +43,28 @@ export const Home = () => {
     }
   };
 
+  async function getTodos() {
+    const docs = [];
+    await db.collection("todos").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        docs.push({ ...doc.data(), id: doc.id });
+      });
+      dispatch(listTodos(docs));
+    });
+  }
+
+  useEffect(() => {
+    getTodos();
+    return () => {
+      true;
+    };
+  }, [dispatch]);
+
+  // const ListItems =
+  //   todos.list.length > 0
+  //     ? todos.list.map((myData) => <li>{myData.title}</li>)
+  //     : "";
+
   return (
     <>
       {auth.login ? (
@@ -67,30 +90,28 @@ export const Home = () => {
                 </Form.Group>
               </Col>
               <Col md={12}>
-                <ul className="todos list-groups">
-                  {/* {todos.length}-- */}
-                  {/* {todos.length == 0
-                    ? "Nada"
-                    : todos.map((todo) => {
-                        <li className="todo list-group-item">
-                          <InputGroup>
-                            <Form.Check
-                              type="checkbox"
-                              label="write this code "
-                            />
-                            <InputGroup.Append>
-                              <Button
-                                variant="outline-secondary"
-                                size="sm"
-                                className="home-delete-btn"
-                              >
-                                &times;
-                              </Button>
-                            </InputGroup.Append>
-                          </InputGroup>
-                        </li>;
-                      })} */}
-                </ul>
+                <div>
+                  {todos.list.length == 0 ? (
+                    "Nada"
+                  ) : (
+                    <ul className="list-groups">
+                      {todos.list.map((item, i) => {
+                        return (
+                          <li key={i} className="list-group-item">
+                            <Form.Check type="checkbox" label={item.title} />
+                            <Button
+                              variant="outline-secondary"
+                              size="sm"
+                              className="home-delete-btn"
+                            >
+                              &times;
+                            </Button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
               </Col>
             </Row>
           </Container>
