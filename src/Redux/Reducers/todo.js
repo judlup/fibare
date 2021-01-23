@@ -2,17 +2,14 @@ import { db } from "../../Initializers/firebase";
 
 import { ADD_TODO, LIST_TODOS } from "../Actions/types";
 
-const initialState = {
-  list: [],
-};
+const initialState = {};
 
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
-      db.collection("todos").doc().set(action.payload);
-      return { ...state, docs };
+      return state;
     case LIST_TODOS:
-      return { ...state, list: action.payload };
+      return { ...state };
     default:
       return state;
   }

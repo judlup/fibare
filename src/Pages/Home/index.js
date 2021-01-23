@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../Initializers/firebase";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 import { addTodo, listTodos } from "../../Redux/Actions";
 import {
   Container,
@@ -14,19 +17,19 @@ import {
 } from "react-bootstrap";
 import "./index.css";
 
-export const Home = () => {
+const Home = (props) => {
   const auth = useSelector((state) => state.auth);
-  const todos = useSelector((state) => state.todos);
-  const dispatch = useDispatch();
+  const todos = props.todos;
   const [title, setTitle] = useState("");
+
   function handleInput(e) {
-    e.preventDefault();
     const { name, value } = e.target;
     // setValues({ ...values, [name]: value });
     setTitle(value);
   }
 
   const handleSubmit = (e) => {
+    // e.preventDefault();
     if (e.key === "Enter") {
       const user = auth.user;
       const data = {
@@ -35,35 +38,11 @@ export const Home = () => {
         done: false,
         createdAt: Date.now(),
       };
-      const result = dispatch(addTodo(data));
-      if (result.payload) {
-        setTitle("");
-        alert("Todo created successful");
-      }
+      props.addTodo(data);
+      setTitle("");
+      alert("Todo created successful");
     }
   };
-
-  async function getTodos() {
-    const docs = [];
-    await db.collection("todos").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        docs.push({ ...doc.data(), id: doc.id });
-      });
-      dispatch(listTodos(docs));
-    });
-  }
-
-  useEffect(() => {
-    getTodos();
-    return () => {
-      true;
-    };
-  }, [dispatch]);
-
-  // const ListItems =
-  //   todos.list.length > 0
-  //     ? todos.list.map((myData) => <li>{myData.title}</li>)
-  //     : "";
 
   return (
     <>
@@ -91,11 +70,11 @@ export const Home = () => {
               </Col>
               <Col md={12}>
                 <div>
-                  {todos.list.length == 0 ? (
+                  {!todos ? (
                     "Nada"
                   ) : (
                     <ul className="list-groups">
-                      {todos.list.map((item, i) => {
+                      {todos.map((item, i) => {
                         return (
                           <li key={i} className="list-group-item">
                             <Form.Check type="checkbox" label={item.title} />
@@ -132,3 +111,29 @@ export const Home = () => {
     </>
   );
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (todo) => dispatch(addTodo(todo)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  const todos = state.firestore.ordered.todos;
+  return {
+    todos: todos,
+    auth: state.auth,
+    uid: state.firebase.auth.uid,
+  };
+};
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((ownProps) => [
+    {
+      collection: "todos",
+      // where: ["user", "==", ownProps.uid],
+      orderBy: ["createdAt", "desc"],
+    },
+  ])
+)(Home);

@@ -26,9 +26,20 @@ export const logout = () => {
 };
 
 export const addTodo = (todo) => {
-  return {
-    type: ADD_TODO,
-    payload: todo,
+  return (dispatch, getState, { getFirebase }) => {
+    //make async call to database
+    const firestore = getFirebase().firestore();
+    firestore
+      .collection("todos")
+      .add({
+        ...todo,
+      })
+      .then(() => {
+        dispatch({ type: ADD_TODO, payload: todo });
+      })
+      .catch((err) => {
+        console.log("ADD_TODO ERROR: ", err);
+      });
   };
 };
 
