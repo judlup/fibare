@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/fibare/static/css/main.991f6d7c.chunk.css",
-    "main.js": "/fibare/static/js/main.ae3c01b9.chunk.js",
-    "main.js.map": "/fibare/static/js/main.ae3c01b9.chunk.js.map",
+    "main.js": "/fibare/static/js/main.72a7796c.chunk.js",
+    "main.js.map": "/fibare/static/js/main.72a7796c.chunk.js.map",
     "runtime-main.js": "/fibare/static/js/runtime-main.18aac3b0.js",
     "runtime-main.js.map": "/fibare/static/js/runtime-main.18aac3b0.js.map",
     "static/css/2.20aa2d7b.chunk.css": "/fibare/static/css/2.20aa2d7b.chunk.css",
-    "static/js/2.b7b15e75.chunk.js": "/fibare/static/js/2.b7b15e75.chunk.js",
-    "static/js/2.b7b15e75.chunk.js.map": "/fibare/static/js/2.b7b15e75.chunk.js.map",
+    "static/js/2.6d0d6e11.chunk.js": "/fibare/static/js/2.6d0d6e11.chunk.js",
+    "static/js/2.6d0d6e11.chunk.js.map": "/fibare/static/js/2.6d0d6e11.chunk.js.map",
     "index.html": "/fibare/index.html",
     "static/css/2.20aa2d7b.chunk.css.map": "/fibare/static/css/2.20aa2d7b.chunk.css.map",
     "static/css/main.991f6d7c.chunk.css.map": "/fibare/static/css/main.991f6d7c.chunk.css.map",
-    "static/js/2.b7b15e75.chunk.js.LICENSE.txt": "/fibare/static/js/2.b7b15e75.chunk.js.LICENSE.txt"
+    "static/js/2.6d0d6e11.chunk.js.LICENSE.txt": "/fibare/static/js/2.6d0d6e11.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.18aac3b0.js",
     "static/css/2.20aa2d7b.chunk.css",
-    "static/js/2.b7b15e75.chunk.js",
+    "static/js/2.6d0d6e11.chunk.js",
     "static/css/main.991f6d7c.chunk.css",
-    "static/js/main.ae3c01b9.chunk.js"
+    "static/js/main.72a7796c.chunk.js"
   ]
 }
