@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import { FaBeer, FaCloudsmith } from "react-icons/fa";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from "react-redux";
@@ -51,7 +52,9 @@ const Home = (props) => {
             <Row>
               <Col md={12}>
                 <br />
-                <h4 className="text-muted text-center">Fibare ToDo</h4>
+                <h4 className="text-muted text-center">
+                  <FaCloudsmith /> Fibare ToDo
+                </h4>
                 <hr />
               </Col>
               <Col md={12}>

@@ -21,3 +21,7 @@ https://dev.to/chaoocharles/creating-a-to-do-app-with-auth-react-redux-firebase-
 ### Firebase - Redux - React Todo Tutorial
 
 https://www.youtube.com/playlist?list=PL4cUxeGkcC9iWstfXntcj8f-dFZ4UtlN3
+
+### React icons
+
+https://react-icons.github.io/react-icons
