@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { addTodo, deleteTodo } from "../../Redux/Actions";
+import { addTodo, deleteTodo, toggleTodo } from "../../Redux/Actions";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./index.css";
 
@@ -37,6 +37,10 @@ const Home = (props) => {
 
   const handleDelete = (todo) => {
     props.deleteTodo(todo);
+  };
+
+  const handleToggle = (todo) => {
+    props.toggleTodo(todo);
   };
 
   return (
@@ -73,7 +77,12 @@ const Home = (props) => {
                       {todos.map((item, i) => {
                         return (
                           <li key={i} className="list-group-item">
-                            <Form.Check type="checkbox" label={item.title} />
+                            <Form.Check
+                              type="checkbox"
+                              onChange={() => handleToggle(item)}
+                              checked={item.done}
+                              label={item.title}
+                            />
                             <small className="home-date-todo">
                               {moment(item.createdAt).calendar()}
                             </small>
@@ -116,6 +125,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addTodo: (todo) => dispatch(addTodo(todo)),
     deleteTodo: (todo) => dispatch(deleteTodo(todo)),
+    toggleTodo: (todo) => dispatch(toggleTodo(todo)),
   };
 };
 

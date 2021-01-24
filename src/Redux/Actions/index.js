@@ -4,6 +4,7 @@ import {
   LOGOUT,
   ADD_TODO,
   DELETE_TODO,
+  TOGGLE_TODO,
 } from "./types";
 
 export const successfulLogin = (data) => {
@@ -55,6 +56,22 @@ export const deleteTodo = (todo) => {
       })
       .catch((err) => {
         console.log("DELETE_TODO ERROR: ", err);
+      });
+  };
+};
+
+export const toggleTodo = (todo) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firestore = getFirebase().firestore();
+    firestore
+      .collection("todos")
+      .doc(todo.id)
+      .set({ ...todo, done: !todo.done }, { merge: true })
+      .then(() => {
+        dispatch({ type: TOGGLE_TODO, todo });
+      })
+      .catch((err) => {
+        console.log("TOGGLE_TODO ERROR: ", err);
       });
   };
 };
