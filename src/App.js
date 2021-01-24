@@ -2,6 +2,8 @@ import React from "react";
 
 // Libs
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./style.css";
 
@@ -13,6 +15,7 @@ export default function App() {
   return (
     <Router>
       <div>
+        <ToastContainer />
         <Header />
         <Switch>
           {/* <Route path="/login" component={Login} /> */}

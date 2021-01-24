@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../../Initializers/firebase";
+import moment from "moment";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { addTodo, listTodos } from "../../Redux/Actions";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { addTodo, deleteTodo } from "../../Redux/Actions";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./index.css";
 
 const Home = (props) => {
@@ -40,8 +32,11 @@ const Home = (props) => {
       };
       props.addTodo(data);
       setTitle("");
-      alert("Todo created successful");
     }
+  };
+
+  const handleDelete = (todo) => {
+    props.deleteTodo(todo);
   };
 
   return (
@@ -65,6 +60,7 @@ const Home = (props) => {
                     onChange={handleInput}
                     onKeyDown={handleSubmit}
                     autoComplete="off"
+                    autoFocus
                   />
                 </Form.Group>
               </Col>
@@ -78,7 +74,11 @@ const Home = (props) => {
                         return (
                           <li key={i} className="list-group-item">
                             <Form.Check type="checkbox" label={item.title} />
+                            <small className="home-date-todo">
+                              {moment(item.createdAt).calendar()}
+                            </small>
                             <Button
+                              onClick={() => handleDelete(item)}
                               variant="outline-secondary"
                               size="sm"
                               className="home-delete-btn"
@@ -115,11 +115,11 @@ const Home = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTodo: (todo) => dispatch(addTodo(todo)),
+    deleteTodo: (todo) => dispatch(deleteTodo(todo)),
   };
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   const todos = state.firestore.ordered.todos;
   return {
     todos: todos,

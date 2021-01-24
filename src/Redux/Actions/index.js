@@ -3,7 +3,7 @@ import {
   FAILURE_LOGIN,
   LOGOUT,
   ADD_TODO,
-  LIST_TODOS,
+  DELETE_TODO,
 } from "./types";
 
 export const successfulLogin = (data) => {
@@ -43,9 +43,18 @@ export const addTodo = (todo) => {
   };
 };
 
-export const listTodos = (todos) => {
-  return {
-    type: LIST_TODOS,
-    payload: todos,
+export const deleteTodo = (todo) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firestore = getFirebase().firestore();
+    firestore
+      .collection("todos")
+      .doc(todo.id)
+      .delete()
+      .then(() => {
+        dispatch({ type: DELETE_TODO });
+      })
+      .catch((err) => {
+        console.log("DELETE_TODO ERROR: ", err);
+      });
   };
 };
